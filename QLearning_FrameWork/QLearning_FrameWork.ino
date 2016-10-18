@@ -170,7 +170,7 @@ void next_Move(int S1,int S2){
      S2_next based on the current state and the action given. Increments N[S1][S2][A].
      
      
-  Written by:
+  Written by:Travers
 */
 void take_Action(){
   

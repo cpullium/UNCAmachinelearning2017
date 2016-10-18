@@ -199,4 +199,4 @@ void Q_Update(){
     Q[S1][S2][a] = (1-alpha)*Q[S1][S2][a] + alpha(Reward() + Qmax + (k/N[............. 
 }
 
-
+//jordan was here

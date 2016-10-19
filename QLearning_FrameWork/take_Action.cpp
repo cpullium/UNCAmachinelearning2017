@@ -1,7 +1,7 @@
 #include "Arduino.h"
+#include "functions.h"
 #include "Servo.h"
 
-void S_Given_A(int State1,int State2,int Action);
 
 extern int S1;
 extern int S2;
@@ -15,7 +15,7 @@ extern Servo S2_servo;  // twelve servo objects can be created on most boards
 
 
 void take_Action(void){
-	//S_Given_A(S1,S2,A);
+	S_Given_A(S1,S2,A);
 	
 	next_S1 = S1_Prime;
 	next_S2 = S2_Prime;

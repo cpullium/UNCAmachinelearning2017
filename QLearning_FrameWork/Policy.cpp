@@ -4,8 +4,6 @@
       int Q_max_action(void)
       void S_Given_A(int State1, int State2, int a)
 ----------------------------------------------------------------------------------------------------------------------------*/
-
-
 #include "Arduino.h"
 #include "functions.h"
 
@@ -57,12 +55,13 @@ int Q_max_action(int State1, int State2){
   for(i=0; i <= Actions_Num; i++){
       temp = Valid_Actions[i]; //store action associated with index i
       Q_max = Q[State1][State2][i] > Q_max ? Q[State1][State2][i] : Q_max;
+
   }
    
   return Best_Action;
 }
 
-void S_Given_A(int State1, int State2, int Action){
+void S_Given_A(int State1, int State2, int Action){ 
   /* 
    * Author: Jordan Miller
    * Description: updates globals S1_Prime & S2_Prime

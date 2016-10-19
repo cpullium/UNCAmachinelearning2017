@@ -17,29 +17,28 @@
 //INITIALIZATION
 //***************************************************************************
 #include <Servo.h> 
+#include "functions.h"
 #include <Encoder.h>
 
 #define ACT 0
 #define ACT_PRIME 1
 
-void init_Arrays(void); //inside init???
-void Policy(int S1,int S2); 
-void take_Action(void); 
-void Q_Update(void); 
-float Q_Max(int State1, int State2); //used by policy and qupdate
-int Available_Actions(int State1, int State2, int Action_Type); //changes global array and returns counter 
-void S_Given_A(int State1,int State2,int Action); // changes global S1_Prime, S2_Prime 
 
 //Q Learning Parameters
 float alpha =.95; //Learning Rate 
 float gamma =.8; //Incentive Variable
 int K=100; //Exploration Reward
-
+int epsilon_greedy = 0;
+int epsilon = 0;
 float Q[5][5][8];
 unsigned int N[5][5][8];
 
 int Valid_Actions[8];
-int Available_Actions_Prime[8];
+int Actions_Num;
+int Vaild_Actions_Prime[8];
+int Actions_Num_Prime;
+
+
 
 
 int S1 = 2;//Set initial state (2,2)

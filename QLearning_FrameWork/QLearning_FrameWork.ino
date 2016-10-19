@@ -22,6 +22,14 @@
 #define ACT 0
 #define ACT_PRIME 1
 
+void init_Arrays(void); //inside init???
+void Policy(int S1,int S2); 
+void take_Action(void); 
+void Q_Update(void); 
+float Q_Max(int State1, int State2); //used by policy and qupdate
+int Available_Actions(int State1, int State2, int Action_Type); //changes global array and returns counter 
+void S_Given_A(int State1,int State2,int Action); // changes global S1_Prime, S2_Prime 
+
 //Q Learning Parameters
 float alpha =.95; //Learning Rate 
 float gamma =.8; //Incentive Variable
@@ -30,7 +38,7 @@ int K=100; //Exploration Reward
 float Q[5][5][8];
 unsigned int N[5][5][8];
 
-int Available_Actions[8];
+int Valid_Actions[8];
 int Available_Actions_Prime[8];
 
 
@@ -95,11 +103,5 @@ float Start_Pos;
 }
 
 
-void init_Arrays(void); //inside init???
-void Policy(int S1,int S2); 
-void take_Action(void); 
-void Q_Update(void); 
-float Q_Max(State1. State2); //used by policy and qupdate
-int Available_Actions(State1, State2, Action_Type); //changes global array and returns counter 
-void S_Given_A(State1, State2, Action); // changes global S1_Prime, S2_Prime 
+
 

@@ -1,20 +1,24 @@
 #include "Arduino.h"
+#include "functions.h"
 
 extern int Valid_Actions[8]; 		
 extern int Actions_Num;				//index of the maximum valid action
-extern int Vaild_Actions_Prime[8];
+extern int Valid_Actions_Prime[8];
 extern int Actions_Num_Prime;		//index of the maximum valid action in next state
 
 extern int S1_Prime;         //Temp for possible states
 extern int S2_Prime;        //Temp for possible states
 
+//-----------------------------------------------------------------------------------------------------
 /* Function Description:
 	This function looks at each possible next states and it's action pair. If the state is within
 	the boundry conditions of the state space, it puts it's action pair into a global array.
 	It also updates a global integer that hold the number of actions put into that array.  
+
    Written by: 
-	Corey Pullium */
-void Available_Actions(State1, State2, Action_Type){
+	Corey Pullium -----------------------------------------------------------------------------------*/
+
+void Available_Actions(int State1,int State2,bool Action_Type){
 	int temp1, temp2;
 	int z[3] = {-1,0,1};
 	int Action_Being_Checked;
@@ -37,7 +41,7 @@ void Available_Actions(State1, State2, Action_Type){
 					if(S2_Prime >= 0 && S2_Prime <= 4){ //Is it within S2 Boundaries?
 
 							if (Action_Type == 0){     					//if looking for actions in current state
-								Vaild_Actions[Actions_Num] = Action_Being_Checked; //put approved action in array 
+								Valid_Actions[Actions_Num] = Action_Being_Checked; //put approved action in array 
 								Actions_Num++; 								  //index/max of the array increments 
 							}
 							else { 											   //if looking for actions in surrounding states

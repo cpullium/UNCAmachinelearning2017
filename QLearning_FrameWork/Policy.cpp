@@ -16,10 +16,12 @@ extern int S2_Prime;
 extern int Action_Next;
 extern int Valid_Actions[8];
 extern int Actions_Num;
+extern int Valid_Actions_Prime[8];
+extern int Actions_Num_Prime;    //index of the maximum valid action in next state
 extern float Q[5][5][8];
 
 
-void Policy(){
+int Policy(){
   /* Title: Policy 
    * Author: Jordan Miller
    * this function checks to see if the policy is greedy or epsilon-greedy
@@ -37,29 +39,36 @@ void Policy(){
   }
 
   else{
-      Action = Q_max_action(S1, S2);          //act greedy
+      Action_Next = Q_max_action(S1, S2, 0);          //act greedy
   }
 
-  return Action;
+  return Action_Next;
 }
 
-int Q_max_action(int State1, int State2){
+int Q_max_action(int State1, int State2, bool Action_Type){
 /*Title: Q_max_action
  * returns the action index associated with the best Q value for current state
  * eventually, there would be a way to randomly choose between actions with equal qualities
- */
-  int i;
-  int temp;
-  int Q_max=0;
-  int Best_Action;
+*/
+	int i;
+	int temp;
+	int Q_max=0;
+	int Best_Action;
 
-  for(i=0; i <= Actions_Num; i++){
-      temp = Valid_Actions[i]; //store action associated with index i
-      Q_max = Q[State1][State2][i] > Q_max ? Q[State1][State2][i] : Q_max;
-
-  }
-   
-  return Best_Action;
+	if(Action_Type == 0){
+		for(i=0; i < Actions_Num; i++){
+  			temp = Valid_Actions[i]; //store action associated with index i
+  			Q_max = Q[State1][State2][i] > Q_max ? Q[State1][State2][i] : Q_max;
+		}
+	}
+	else if(Action_Type == 1){
+		for(i=0; i < Actions_Num_Prime; i++){
+  			temp = Valid_Actions_Prime[i]; //store action associated with index i
+  			Q_max = Q[State1][State2][i] > Q_max ? Q[State1][State2][i] : Q_max;
+		}
+	}
+   	Best_Action = temp;
+  	return Best_Action;
 }
 
 void S_Given_A(int State1, int State2, int Action){ 

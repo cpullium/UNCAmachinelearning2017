@@ -16,6 +16,7 @@
 
 //INITIALIZATION
 //***************************************************************************
+#include "Arduino.h"
 #include <Servo.h> 
 #include "functions.h"
 #include <Encoder.h>
@@ -27,8 +28,8 @@
 //Q Learning Parameters
 float alpha =.95; //Learning Rate 
 float gamma =.8; //Incentive Variable
-int K=100; //Exploration Reward
-int epsilon_greedy = 0;
+float K=100; //Exploration Reward
+bool epsilon_greedy = 0;
 int epsilon = 0;
 float Q[5][5][8];
 unsigned int N[5][5][8];
@@ -48,7 +49,7 @@ int S2_Prime;
 int next_S1=0;
 int next_S2=0;
 int Action_Next;  //Action
-int R;
+float R;
  
 //Objects
 Servo S1_servo;  // create servo object to control a servo 

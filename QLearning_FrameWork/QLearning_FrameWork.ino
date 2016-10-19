@@ -22,6 +22,14 @@
 #define ACT 0
 #define ACT_PRIME 1
 
+void init_Arrays(void); //inside init???
+void Policy(int S1,int S2); 
+void take_Action(void); 
+void Q_Update(void); 
+float Q_Max(int State1, int State2); //used by policy and qupdate
+int Available_Actions(int State1, int State2, int Action_Type); //changes global array and returns counter 
+void S_Given_A(int State1,int State2,int Action); // changes global S1_Prime, S2_Prime 
+
 //Q Learning Parameters
 float alpha =.95; //Learning Rate 
 float gamma =.8; //Incentive Variable
@@ -34,6 +42,9 @@ int Valid_Actions[8];
 int Actions_Num;
 int Vaild_Actions_Prime[8];
 int Actions_Num_Prime;
+
+
+
 
 int S1 = 2;//Set initial state (2,2)
 int S2 = 2;
@@ -55,7 +66,7 @@ void setup(){
   
   Serial.begin(9600);
  
-  init_Arrays(); //Q gets 0s, N gets 1s.
+//  init_Arrays(); //Q gets 0s, N gets 1s.
  
   S1_servo.attach(11);  // attaches the servo on pin 11 to the servo object
   S2_servo.attach(12);       
@@ -74,19 +85,19 @@ float Start_Pos;
 
   while(1){
       //Use S1,S2 and Q Table to define next states
-      Policy(S1,S2); //Policy
+ //     Policy(S1,S2); //Policy
       
       //Measure where you start from
-      Start_Pos = myEnc.read();
+//      Start_Pos = myEnc.read();
       
       //Move to new state assign next_S1, next_S2. Increment global N[S1][S2][A];
       take_Action();
       
       //Measure where you end
-      R = myEnc.read()-Start_Pos;
+//      R = myEnc.read()-Start_Pos;
       
       //Update Q synchronously. 
-      Q_Update();//All inputs are global variables
+//    Q_Update();//All inputs are global variables
       
       //Setup for next itteration
       S1 = next_S1;
@@ -96,11 +107,5 @@ float Start_Pos;
 }
 
 
-void init_Arrays(void); //inside init???
-void Policy(int S1,int S2); 
-void take_Action(void); 
-void Q_Update(void); 
-float Q_Max(State1. State2); //used by policy and qupdate
-int Available_Actions(State1, State2, Action_Type); //changes global array and returns counter 
-void S_Given_A(State1, State2, Action); // changes global S1_Prime, S2_Prime 
+
 

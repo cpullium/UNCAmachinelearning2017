@@ -30,9 +30,10 @@ int K=100; //Exploration Reward
 float Q[5][5][8];
 unsigned int N[5][5][8];
 
-int Available_Actions[8];
-int Available_Actions_Prime[8];
-
+int Valid_Actions[8];
+int Actions_Num;
+int Vaild_Actions_Prime[8];
+int Actions_Num_Prime;
 
 int S1 = 2;//Set initial state (2,2)
 int S2 = 2;

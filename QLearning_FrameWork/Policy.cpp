@@ -7,13 +7,17 @@
 
 
 #include "Arduino.h"
+#include "functions.h"
 
+extern bool epsilon_greedy;
+extern int epsilon;
 extern int S1;
 extern int S2;
 extern int S1_Prime;
 extern int S2_Prime;
 extern int Valid_Actions[8];
 extern int Actions_Num;
+extern float Q[5][5][8];
 
 
 int Policy(){
@@ -34,13 +38,13 @@ int Policy(){
   }
 
   else{
-      Action = Q_max_action();          //act greedy
+      Action = Q_max_action(S1, S2);          //act greedy
   }
 
   return Action;
 }
 
-int Q_max_action(){
+int Q_max_action(int State1, int State2){
 /*Title: Q_max_action
  * returns the action index associated with the best Q value for current state
  * eventually, there would be a way to randomly choose between actions with equal qualities
@@ -52,7 +56,7 @@ int Q_max_action(){
 
   for(i=0; i <= Actions_Num; i++){
       temp = Valid_Actions[i]; //store action associated with index i
-      Q_max = if(Q[S1][S2][i] > qmax) ? Q[S1][S2][i] : qmax;
+      Q_max = Q[State1][State2][i] > Q_max ? Q[State1][State2][i] : Q_max;
   }
    
   return Best_Action;
@@ -61,41 +65,41 @@ int Q_max_action(){
 void S_Given_A(int State1, int State2, int Action){
   /* 
    * Author: Jordan Miller
-   * Description: updates globals S1_prime & S2_prime
+   * Description: updates globals S1_Prime & S2_Prime
    * given a particular action
    */
   switch(Action){
     case 0:
-      State1_prime = S1-1;
-      State2_prime = S2-1;
+      S1_Prime = State1-1;
+      S2_Prime = State2-1;
       break; 
     case 1:
-      State1_prime = S1-1;
-      State2_prime = S2;
+      S1_Prime = State1-1;
+      S2_Prime = State2;
       break; 
     case 2:
-      State1_prime = S1-1;
-      State2_prime = S2+1;
+      S1_Prime = State1-1;
+      S2_Prime = State2+1;
       break; 
     case 3:
-      State1_prime = S1;
-      State2_prime = S2-1;
+      S1_Prime = State1;
+      S2_Prime = State2-1;
       break;     
     case 4:
-      State1_prime = S1;
-      State2_prime = S2+1;
+      S1_Prime = State1;
+      S2_Prime = State2+1;
       break;     
     case 5:
-      State1_prime = S1+1;
-      State2_prime = S2-1;
+      S1_Prime = State1+1;
+      S2_Prime = State2-1;
       break;     
     case 6:
-      State1_prime = S1+1;
-      State2_prime = S2;
+      S1_Prime = State1+1;
+      S2_Prime = State2;
       break;     
     case 7:
-      State1_prime = S1+1;
-      State2_prime = S2+1;
+      S1_Prime = State1+1;
+      S2_Prime = State2+1;
       break;     
   }
 }

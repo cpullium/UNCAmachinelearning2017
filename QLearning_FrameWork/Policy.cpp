@@ -58,13 +58,13 @@ int Q_max_action(){
   return Best_Action;
 }
 
-void S_Given_A(int State1, int State2, int a){
+void S_Given_A(int State1, int State2, int Action){
   /* 
    * Author: Jordan Miller
    * Description: updates globals S1_prime & S2_prime
    * given a particular action
    */
-  switch(a){
+  switch(Action){
     case 0:
       State1_prime = S1-1;
       State2_prime = S2-1;

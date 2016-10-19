@@ -15,7 +15,7 @@ extern Servo S2_servo;  // twelve servo objects can be created on most boards
 
 
 void take_Action(void){
-	S_Given_A(S1,S2,A);
+	//S_Given_A(S1,S2,A);
 	
 	next_S1 = S1_Prime;
 	next_S2 = S2_Prime;

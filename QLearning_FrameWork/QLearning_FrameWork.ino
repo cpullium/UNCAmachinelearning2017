@@ -62,7 +62,7 @@ void setup(){
   
   Serial.begin(9600);
  
-  init_Arrays(); //Q gets 0s, N gets 1s.
+//  init_Arrays(); //Q gets 0s, N gets 1s.
  
   S1_servo.attach(11);  // attaches the servo on pin 11 to the servo object
   S2_servo.attach(12);       
@@ -81,19 +81,19 @@ float Start_Pos;
 
   while(1){
       //Use S1,S2 and Q Table to define next states
-      Policy(S1,S2); //Policy
+ //     Policy(S1,S2); //Policy
       
       //Measure where you start from
-      Start_Pos = myEnc.read();
+//      Start_Pos = myEnc.read();
       
       //Move to new state assign next_S1, next_S2. Increment global N[S1][S2][A];
       take_Action();
       
       //Measure where you end
-      R = myEnc.read()-Start_Pos;
+//      R = myEnc.read()-Start_Pos;
       
       //Update Q synchronously. 
-      Q_Update();//All inputs are global variables
+//    Q_Update();//All inputs are global variables
       
       //Setup for next itteration
       S1 = next_S1;

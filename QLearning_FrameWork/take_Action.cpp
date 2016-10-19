@@ -9,7 +9,7 @@ extern int S1_Prime;
 extern int S2_Prime;
 extern int next_S1;
 extern int next_S2; 
-extern int A;
+extern int Action_Next;
 extern Servo S1_servo; 
 extern Servo S2_servo;  // twelve servo objects can be created on most boards
 

@@ -13,18 +13,19 @@ extern int S1;
 extern int S2;
 extern int S1_Prime;
 extern int S2_Prime;
+extern int Action_Next;
 extern int Valid_Actions[8];
 extern int Actions_Num;
 extern float Q[5][5][8];
 
 
-int Policy(){
+void Policy(){
   /* Title: Policy 
    * Author: Jordan Miller
    * this function checks to see if the policy is greedy or epsilon-greedy
    * it returns the action to take according to the specified policy
    */
-  int Action;
+  int Action_Next;
   int temp; // used to temporarily store action index
   int p = random(100);
 
@@ -32,7 +33,7 @@ int Policy(){
 
   if(epsilon_greedy && p < epsilon){    //if epsilon greedy and random action is selected
       temp = random(Actions_Num);       //pick a random action
-      Action = Valid_Actions[temp];
+      Action_Next = Valid_Actions[temp];
   }
 
   else{

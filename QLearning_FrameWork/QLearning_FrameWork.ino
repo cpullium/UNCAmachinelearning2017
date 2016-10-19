@@ -47,7 +47,7 @@ int S1_Prime;
 int S2_Prime;
 int next_S1=0;
 int next_S2=0;
-int A;  //Action
+int Action_Next;  //Action
 int R;
  
 //Objects
@@ -97,7 +97,7 @@ float Start_Pos;
       //Setup for next itteration
       S1 = next_S1;
       S2 = next_S2;
-      itterations++;//Count itterations
+      itterations++;//Count iterations
   }  
 }
 

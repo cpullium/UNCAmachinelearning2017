@@ -4,9 +4,8 @@
       int Q_max_action(void)
       void S_Given_A(int State1, int State2, int a)
 ----------------------------------------------------------------------------------------------------------------------------*/
-
-
 #include "Arduino.h"
+#include "functions.h"
 
 extern int S1;
 extern int S2;
@@ -14,7 +13,9 @@ extern int S1_Prime;
 extern int S2_Prime;
 extern int Valid_Actions[8];
 extern int Actions_Num;
-
+extern int epsilon_greedy;
+extern int epsilon;
+extern float Q[5][5][8];
 
 int Policy(){
   /* Title: Policy 
@@ -52,7 +53,7 @@ int Q_max_action(){
 
   for(i=0; i <= Actions_Num; i++){
       temp = Valid_Actions[i]; //store action associated with index i
-      Q_max = if(Q[S1][S2][i] > qmax) ? Q[S1][S2][i] : qmax;
+      Q_max = (Q[S1][S2][i] > qmax) ? Q[S1][S2][i] : qmax;
   }
    
   return Best_Action;

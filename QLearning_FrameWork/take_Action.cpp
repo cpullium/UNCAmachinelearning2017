@@ -22,4 +22,5 @@ void take_Action(void){
 	
 	Shoulder.write(90+15*S1);
 	Elbow.write(90+15*S2);
+  delay(1000);
 }

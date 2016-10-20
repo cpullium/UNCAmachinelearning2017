@@ -53,9 +53,10 @@ int Action_Next;  //Action
 float R;
  
 //Objects
-Servo S1_servo;  // create servo object to control a servo 
-Servo S2_servo;  // twelve servo objects can be created on most boards
+Servo Shoulder;  // create servo object to control a servo 
+Servo Elbow;  // twelve servo objects can be created on most boards
 Encoder myEnc(2, 3);//create encoder object 
+
 
 
 //SETUP
@@ -65,8 +66,8 @@ void setup(){
  
   Init_All(); //Q gets 0s, N gets 1s.
  
-  S1_servo.attach(11);  // attaches the servo on pin 11 to the servo object
-  S2_servo.attach(12);       
+  Shoulder.attach(11);  // attaches the servo on pin 11 to the servo object
+  Elbow.attach(12);       
 } 
 
 

@@ -10,8 +10,8 @@ extern int S2_Prime;
 extern int next_S1;
 extern int next_S2; 
 extern int Action_Next;
-extern Servo S1_servo; 
-extern Servo S2_servo;  // twelve servo objects can be created on most boards
+extern Servo Shoulder; 
+extern Servo Elbow;  // twelve servo objects can be created on most boards
 
 
 void take_Action(void){
@@ -20,6 +20,6 @@ void take_Action(void){
 	next_S1 = S1_Prime;
 	next_S2 = S2_Prime;
 	
-	S1_servo.write(90+15*S1);
-	S2_servo.write(90+15*S2);
+	Shoulder.write(90+15*S1);
+	Elbow.write(90+15*S2);
 }

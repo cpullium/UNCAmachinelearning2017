@@ -37,7 +37,7 @@ unsigned int N[5][5][8];
 
 int Valid_Actions[8];
 int Actions_Num;
-int Vaild_Actions_Prime[8];
+int Valid_Actions_Prime[8];
 int Actions_Num_Prime;
 
 
@@ -82,7 +82,7 @@ float Start_Pos;
 
   while(1){
       //Use S1,S2 and Q Table to define next states
-//      Policy(S1,S2); //Policy
+   Action_Next =  Policy(); //Policy
       
       //Measure where you start from
       Start_Pos = myEnc.read();
@@ -94,7 +94,7 @@ float Start_Pos;
       R = myEnc.read()-Start_Pos;
       
       //Update Q synchronously. 
-//    Q_Update();//All inputs are global variables
+   Q_Update();//All inputs are global variables
       
       //Setup for next itteration
       S1 = next_S1;

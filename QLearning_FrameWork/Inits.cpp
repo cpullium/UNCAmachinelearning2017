@@ -5,7 +5,7 @@ extern float Q[5][5][8]; 				//Quality of taking an action state pair
 extern unsigned int N[5][5][8];			// Number of times you've taken an action state pair
 
 extern int Valid_Actions[8];
-extern int Vaild_Actions_Prime[8];
+extern int Valid_Actions_Prime[8];
 
 /********************************************************** 
 void Init_All(void);
@@ -51,6 +51,6 @@ void Init_Valid_Actions(void){
 	int i;
 	for(i=0;i<8;i++){
 		Valid_Actions[i]=0;
-                Vaild_Actions_Prime[i]=0;
+                Valid_Actions_Prime[i]=0;
 	}
 }

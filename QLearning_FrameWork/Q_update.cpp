@@ -5,6 +5,7 @@ extern float Q[5][5][8]; 				//Quality of taking an action state pair
 extern unsigned int N[5][5][8];			// Number of times you've taken an action state pair
 
 extern int Valid_Actions[8]; 		
+extern int Valid_Actions_Prime[8]; 
 extern int Actions_Num;				//index of the maximum valid action
 
 extern int Action_Next;       //Action taken, possibly recieving +/- reward.

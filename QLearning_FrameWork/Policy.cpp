@@ -21,7 +21,7 @@ extern int Actions_Num_Prime;    //index of the maximum valid action in next sta
 extern float Q[5][5][8];
 
 
-int Policy(){
+int Policy(void){
   /* Title: Policy 
    * Author: Jordan Miller
    * this function checks to see if the policy is greedy or epsilon-greedy
@@ -31,7 +31,7 @@ int Policy(){
   int temp; // used to temporarily store action index
   int p = random(100);
 
-  Available_Actions(S1, S2, 0);
+ 
 
   if(epsilon_greedy && p < epsilon){    //if epsilon greedy and random action is selected
       temp = random(Actions_Num);       //pick a random action

@@ -18,7 +18,7 @@ extern int S2_Prime;        //Temp for possible states
    Written by: 
 	Corey Pullium -----------------------------------------------------------------------------------*/
 
-void Available_Actions(int State1,int State2,bool Action_Type){
+void Available_Actions(int State1,int State2,int Action_Type){
 	int temp1, temp2;
 	int z[3] = {-1,0,1};
 	int Action_Being_Checked;

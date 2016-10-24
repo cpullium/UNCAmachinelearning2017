@@ -1,5 +1,7 @@
 #include "Arduino.h"
 #include "functions.h"
+#include "macros.h"
+
 
 extern int Valid_Actions[8]; 		
 extern int Actions_Num;				//index of the maximum valid action
@@ -18,10 +20,10 @@ extern int S2_Prime;        //Temp for possible states
    Written by: 
 	Corey Pullium -----------------------------------------------------------------------------------*/
 
-void Available_Actions(int State1,int State2,int Action_Type){
+void Available_Actions(int State1,int State2,bool Action_Type){
 	int temp1, temp2;
 	int z[3] = {-1,0,1};
-	int Action_Being_Checked;
+	int Action_Being_Checked = 0;
 
 	temp1 = S1_Prime; //store current value
 	temp2 = S2_Prime; //store current value
@@ -35,7 +37,7 @@ void Available_Actions(int State1,int State2,int Action_Type){
 			S1_Prime = State1 + z[i];		//caculate next possible state address for s1
 			S2_Prime = State2 + z[j];		//caculate next possible state address for S2
 
-			if(S1_Prime != State1 && S2_Prime != State2){     //Avoid one case, where both states stay the same
+			if(!(S1_Prime == State1 && S2_Prime == State2)){     //Avoid one case, where both states stay the same
 
 				if(S1_Prime >= 0 && S1_Prime <= 4){      //Is it within S1 Boundaries?
 					if(S2_Prime >= 0 && S2_Prime <= 4){ //Is it within S2 Boundaries?

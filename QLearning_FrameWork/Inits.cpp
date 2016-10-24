@@ -1,5 +1,12 @@
 #include "Arduino.h"
 #include "functions.h"
+#include "macros.h"
+#include <Servo.h> 
+
+extern Servo Shoulder; 
+extern Servo Elbow;  // twelve servo objects can be created on most boards
+extern int S1;                //State where updates are taking place
+extern int S2;                //State where updates are taking place
 
 extern float Q[5][5][8]; 				//Quality of taking an action state pair
 extern unsigned int N[5][5][8];			// Number of times you've taken an action state pair
@@ -14,8 +21,11 @@ void Init_All(void);
 
 */
 void Init_All (void){
+  digitalWrite(GREEN1, HIGH);
 	Init_QandN();
 	Init_Valid_Actions();
+  Shoulder.write(130);
+  Elbow.write(130);
 	
 }
 
@@ -51,6 +61,6 @@ void Init_Valid_Actions(void){
 	int i;
 	for(i=0;i<8;i++){
 		Valid_Actions[i]=0;
-                Valid_Actions_Prime[i]=0;
+    Valid_Actions_Prime[i]=0;
 	}
 }

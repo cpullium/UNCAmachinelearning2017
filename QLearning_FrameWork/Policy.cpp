@@ -6,6 +6,7 @@
 ----------------------------------------------------------------------------------------------------------------------------*/
 #include "Arduino.h"
 #include "functions.h"
+#include "macros.h"
 
 extern bool epsilon_greedy;
 extern int epsilon;
@@ -21,28 +22,27 @@ extern int Actions_Num_Prime;    //index of the maximum valid action in next sta
 extern float Q[5][5][8];
 
 
-int Policy(void){
+void Policy(void){
   /* Title: Policy 
    * Author: Jordan Miller
    * this function checks to see if the policy is greedy or epsilon-greedy
    * it returns the action to take according to the specified policy
    */
-  int Action_Next;
   int temp; // used to temporarily store action index
   int p = random(100);
-
  
-
-  if(epsilon_greedy && p < epsilon){    //if epsilon greedy and random action is selected
-      temp = random(Actions_Num);       //pick a random action
+  Available_Actions(S1,S2,0);
+  /*if(epsilon_greedy && p < epsilon){    //if epsilon greedy and random action is selected
+      temp = random(Actions_Num - 1);       //pick a random action
       Action_Next = Valid_Actions[temp];
   }
 
   else{
+      
       Action_Next = Q_max_action(S1, S2, 0);          //act greedy
   }
-
-  return Action_Next;
+*/
+  Action_Next = Q_max_action(S1, S2, 0);
 }
 
 int Q_max_action(int State1, int State2, bool Action_Type){
@@ -51,23 +51,31 @@ int Q_max_action(int State1, int State2, bool Action_Type){
  * eventually, there would be a way to randomly choose between actions with equal qualities
 */
 	int i;
-	int temp;
+	int a;  //action being checked
 	int Q_max=0;
 	int Best_Action;
-
+  
 	if(Action_Type == 0){
+    Best_Action= Valid_Actions[0];
 		for(i=0; i < Actions_Num; i++){
-  			temp = Valid_Actions[i]; //store action associated with index i
-  			Q_max = Q[State1][State2][i] > Q_max ? Q[State1][State2][i] : Q_max;
+  			a = Valid_Actions[i]; //store action associated with index i
+  			if (Q[State1][State2][a] > Q_max){
+  			 Q_max = Q[State1][State2][a];
+  			 Best_Action = a;
+			}
+
 		}
 	}
 	else if(Action_Type == 1){
 		for(i=0; i < Actions_Num_Prime; i++){
-  			temp = Valid_Actions_Prime[i]; //store action associated with index i
-  			Q_max = Q[State1][State2][i] > Q_max ? Q[State1][State2][i] : Q_max;
+  			a = Valid_Actions_Prime[i]; //store action associated with index i
+  			
+  			if (Q[State1][State2][a] > Q_max){
+  			 Q_max = Q[State1][State2][a];
+  			 Best_Action = a;
+			}
 		}
 	}
-   	Best_Action = temp;
   	return Best_Action;
 }
 

@@ -1,7 +1,7 @@
 #include "Arduino.h"
 #include "functions.h"
 #include "Servo.h"
-
+#include "macros.h"
 
 extern int S1;
 extern int S2;
@@ -15,12 +15,14 @@ extern Servo Elbow;  // twelve servo objects can be created on most boards
 
 
 void take_Action(void){
+  digitalWrite(RED1, HIGH);
 	S_Given_A(S1,S2,Action_Next);
 	
 	next_S1 = S1_Prime;
 	next_S2 = S2_Prime;
 	
-	Shoulder.write(90+15*S1);
-	Elbow.write(90+15*S2);
+	Shoulder.write(90+20*next_S1);
+	Elbow.write(90+20*next_S2);
   delay(1000);
+  digitalWrite(RED1, LOW);
 }

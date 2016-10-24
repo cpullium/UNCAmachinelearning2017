@@ -1,5 +1,6 @@
 #include "Arduino.h"
 #include "functions.h"
+#include "macros.h"
 
 extern float Q[5][5][8]; 				//Quality of taking an action state pair
 extern unsigned int N[5][5][8];			// Number of times you've taken an action state pair
@@ -40,7 +41,7 @@ void Q_Update(){
   float oldPerspective;
   float newPerspective;
 
-  for(int i; i<Actions_Num; i++){		//Update all possible actions' quaility 
+  for(int i=0; i<Actions_Num; i++){		//Update all possible actions' quaility 
   	Action_Being_Updated = Valid_Actions[i];  //pull from  global valid action vector
 
   	S_Given_A(S1, S2, Action_Being_Updated);     //translate watched action into a state set

@@ -19,10 +19,9 @@
 #include "Arduino.h"
 #include <Servo.h> 
 #include <Encoder.h>
+#include <LiquidCrystal.h>
 #include "functions.h"
-
-#define ACT 0
-#define ACT_PRIME 1
+#include "macros.h"
 
 
 
@@ -49,13 +48,15 @@ int S1_Prime;
 int S2_Prime;
 int next_S1=0;
 int next_S2=0;
-int Action_Next;  //Action
+int Action_Next = 6;  //Action
 float R;
- 
+
+
 //Objects
 Servo Shoulder;  // create servo object to control a servo 
 Servo Elbow;  // twelve servo objects can be created on most boards
 Encoder myEnc(2, 3);//create encoder object 
+LiquidCrystal lcd(42, 44, 46, 48, 50, 52);
 
 
 
@@ -66,8 +67,20 @@ void setup(){
  
   Init_All(); //Q gets 0s, N gets 1s.
  
-  Shoulder.attach(11);  // attaches the servo on pin 11 to the servo object
-  Elbow.attach(12);       
+  Shoulder.attach(24);  // attaches the servo on pin 11 to the servo object
+  Elbow.attach(22);      
+  lcd.begin(16, 2);
+  lcd.print(" Teach me how to dougie");
+  lcd.setCursor(0,1);
+  lcd.print(" to dougie");
+  
+  //Initialize LEDs
+  pinMode(RED1, OUTPUT);
+  pinMode(GREEN1, OUTPUT);
+  pinMode(RED2, OUTPUT);
+  pinMode(GREEN2, OUTPUT);  
+  delay(3000);
+  
 } 
 
 
@@ -78,29 +91,39 @@ void setup(){
 //*******************************************************************************
 void loop() {
 // Local Variables
-unsigned int itterations =0;
+unsigned int iterations =0;
 float Start_Pos;
 
   while(1){
       //Use S1,S2 and Q Table to define next states
-   Action_Next =  Policy(); //Policy
+      lcd.clear();
+      lcd.setCursor(0,0);
+      lcd.print(Actions_Num); 
+      lcd.setCursor(0,1);
+      lcd.print(S1);
+      lcd.setCursor(6,1);
+      lcd.print(S2);
+      
+      Policy(); //Policy
       
       //Measure where you start from
-      Start_Pos = myEnc.read();
+      //Start_Pos = myEnc.read();
       
       //Move to new state assign next_S1, next_S2. Increment global N[S1][S2][A];
       take_Action();
       
       //Measure where you end
-      R = myEnc.read()-Start_Pos;
+      //R = myEnc.read()-Start_Pos;
+      
       
       //Update Q synchronously. 
-   Q_Update();//All inputs are global variables
+      Q_Update();//All inputs are global variables
       
       //Setup for next itteration
       S1 = next_S1;
       S2 = next_S2;
-      itterations++;//Count iterations
+      iterations++;//Count iterations
+      delay(1000);
   }  
 }
 

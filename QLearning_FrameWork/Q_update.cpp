@@ -53,7 +53,7 @@ void Q_Update(){
   	Reward = (Action_Being_Updated == Action_Next) ? R : 0; //if looking at the actual action taken, factor in Reward
 
   	oldPerspective = Q[S1][S2][Action_Being_Updated];  //store current map value
-  	newPerspective = Reward + qmax + K/(float)N[S1_Prime][S2_Prime][A_Prime]; //store information learned
+  	newPerspective = Reward + qmax + K/N[S1_Prime][S2_Prime][A_Prime]; //store information learned
 
   	Q[S1][S2][Action_Being_Updated] = beta*oldPerspective + alpha*newPerspective; //Combined current map with learned info
   																				//beta and alpha weight old vs new

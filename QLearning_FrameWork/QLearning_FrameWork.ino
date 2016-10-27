@@ -26,13 +26,13 @@
 
 
 //Q Learning Parameters
-float alpha =.95; //Learning Rate 
-float gamma =.8; //Incentive Variable
-float K=100; //Exploration Reward
+float alpha =0.5; //Learning Rate 
+float gamma = 1; //Incentive Variable
+float K=3; //Exploration Reward
 bool epsilon_greedy = 0;
 int epsilon = 0;
 float Q[5][5][8];
-unsigned int N[5][5][8];
+float N[5][5][8];
 
 int Valid_Actions[8];
 int Actions_Num;
@@ -48,7 +48,7 @@ int S1_Prime;
 int S2_Prime;
 int next_S1=0;
 int next_S2=0;
-int Action_Next = 6;  //Action
+int Action_Next = 0;  //Action
 float R;
 
 
@@ -80,7 +80,8 @@ void setup(){
   pinMode(RED2, OUTPUT);
   pinMode(GREEN2, OUTPUT);  
   delay(3000);
-  
+
+
 } 
 
 
@@ -103,6 +104,12 @@ float Start_Pos;
       lcd.print(S1);
       lcd.setCursor(6,1);
       lcd.print(S2);
+
+      Serial.print("Current Qaulity:   "); Serial.print(S1); Serial.print(", "); Serial.print(S2); Serial.print(" :    ");
+      for(int i=0; i < 8; i++){
+        Serial.print(Q[S1][S2][i]); Serial.print(", "); 
+      }
+      Serial.println();
       
       Policy(); //Policy
       
@@ -118,12 +125,18 @@ float Start_Pos;
       
       //Update Q synchronously. 
       Q_Update();//All inputs are global variables
-      
+      Serial.print("updated Qaulity:   "); Serial.print(S1); Serial.print(", "); Serial.print(S2); Serial.print(" :    ");
+      for(int i=0; i < 8; i++){
+        Serial.print(Q[S1][S2][i]); Serial.print(", "); 
+      }
+      Serial.println();
+      Serial.println();
       //Setup for next itteration
+      N[S1][S2][Action_Next]++;
       S1 = next_S1;
       S2 = next_S2;
       iterations++;//Count iterations
-      delay(1000);
+      delay(250);
   }  
 }
 

@@ -9,7 +9,7 @@ extern int S1;                //State where updates are taking place
 extern int S2;                //State where updates are taking place
 
 extern float Q[5][5][8]; 				//Quality of taking an action state pair
-extern unsigned int N[5][5][8];			// Number of times you've taken an action state pair
+extern float N[5][5][8];			// Number of times you've taken an action state pair
 
 extern int Valid_Actions[8];
 extern int Valid_Actions_Prime[8];
@@ -44,7 +44,7 @@ void Init_QandN(void){
 		for(j=0;j<5;j++){
 			for(k=0;k<8;k++){
 				Q[i][j][k] = 0;
-				N[i][j][k] = 1;
+				N[i][j][k] = 0.01;
 			}
 		}
 	}

@@ -23,6 +23,6 @@ void take_Action(void){
 	
 	Shoulder.write(90+20*next_S1);
 	Elbow.write(90+20*next_S2);
-  delay(500);
+  delay(250);
   digitalWrite(RED1, LOW);
 }

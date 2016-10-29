@@ -26,13 +26,18 @@
 
 
 //Q Learning Parameters
-float alpha =0.5; //Learning Rate 
+float alpha =0.3; //Learning Rate 
+float K=100; //Exploration Reward
+
 float gamma = 1; //Incentive Variable
-float K=3; //Exploration Reward
 bool epsilon_greedy = 0;
 int epsilon = 0;
 float Q[5][5][8];
 float N[5][5][8];
+unsigned int Visited[5][5] = {0};
+unsigned int States_Visited = 0;
+float time_elapsed;
+
 
 int Valid_Actions[8];
 int Actions_Num;
@@ -41,7 +46,7 @@ int Actions_Num_Prime;
 
 
 
-
+bool flag = 0;
 int S1 = 2;//Set initial state (2,2)
 int S2 = 2;
 int S1_Prime;
@@ -105,12 +110,27 @@ float Start_Pos;
       lcd.setCursor(6,1);
       lcd.print(S2);
 
-      Serial.print("Current Qaulity:   "); Serial.print(S1); Serial.print(", "); Serial.print(S2); Serial.print(" :    ");
-      for(int i=0; i < 8; i++){
-        Serial.print(Q[S1][S2][i]); Serial.print(", "); 
-      }
-      Serial.println();
-      
+//      Serial.print("Current Qaulity:   "); Serial.print(S1); Serial.print(", "); Serial.print(S2); Serial.print(" :    ");
+//      for(int i=0; i < 8; i++){
+//        Serial.print(Q[S1][S2][i]); Serial.print(", "); 
+//      }
+       if(flag == 0){
+         for(int i=0; i < 5; i++){
+            for(int j=0; j < 5; j++){
+              if(Visited[i][j] != 0) States_Visited++;
+            }
+          }
+          Serial.print(States_Visited); Serial.print("............."); Serial.print(S1); Serial.print(", "); Serial.print(S2);
+          Serial.print("  Time: "); time_elapsed = millis(); time_elapsed = time_elapsed/60000; Serial.print(time_elapsed);
+          Serial.print(" minutes"); Serial.print("    "); Serial.print(iterations); Serial.print(" iterations");
+          Serial.print("    ");  Serial.print("alpha: "); Serial.println(alpha);
+          if(States_Visited == 25){ 
+            Serial.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+            flag++;
+          }
+          States_Visited = 0;
+          Visited[S1][S2]++;
+       }
       Policy(); //Policy
       
       //Measure where you start from
@@ -125,18 +145,20 @@ float Start_Pos;
       
       //Update Q synchronously. 
       Q_Update();//All inputs are global variables
-      Serial.print("updated Qaulity:   "); Serial.print(S1); Serial.print(", "); Serial.print(S2); Serial.print(" :    ");
-      for(int i=0; i < 8; i++){
-        Serial.print(Q[S1][S2][i]); Serial.print(", "); 
-      }
-      Serial.println();
-      Serial.println();
+//      Serial.print("updated Qaulity:   "); Serial.print(S1); Serial.print(", "); Serial.print(S2); Serial.print(" :    ");
+//      for(int i=0; i < 8; i++){
+//        Serial.print(Q[S1][S2][i]); Serial.print(", "); 
+//      }
+//      Serial.println();
+//      Serial.println();
       //Setup for next itteration
       N[S1][S2][Action_Next]++;
+      alpha -= 0.008;
+      if(alpha < .01) alpha = .01;
       S1 = next_S1;
       S2 = next_S2;
       iterations++;//Count iterations
-      delay(250);
+      //delay(250);
   }  
 }
 

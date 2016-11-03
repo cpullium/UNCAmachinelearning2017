@@ -17,6 +17,7 @@ extern int S2_Prime;        //Temp for possible states
 
 extern float R;     //Reward for action actually taken
 extern float alpha; //learning rate
+extern float gamma;
 extern float K;				//Exploration factor
 //-----------------------------------------------------------------------------------------------------
 /* Function Description:
@@ -69,7 +70,7 @@ void Q_Update(){
 //// debug prints^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
   	oldPerspective = Q[S1][S2][Action_Being_Updated];  //store current map value
-  	newPerspective = Reward + qmax + K/N[S1_Prime][S2_Prime][A_Prime]; //store information learned
+  	newPerspective = Reward + gamma * qmax + K/N[S1_Prime][S2_Prime][A_Prime]; //store information learned
 
   	Q[S1][S2][Action_Being_Updated] = beta*oldPerspective + alpha*newPerspective; //Combined current map with learned info
   																				//beta and alpha weight old vs new

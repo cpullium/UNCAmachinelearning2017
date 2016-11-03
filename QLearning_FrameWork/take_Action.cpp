@@ -21,8 +21,8 @@ void take_Action(void){
 	next_S1 = S1_Prime;
 	next_S2 = S2_Prime;
 	
-	Shoulder.write(90+20*next_S1);
-	Elbow.write(90+20*next_S2);
+	Shoulder.write(70+20*next_S1);
+	Elbow.write(40+20*next_S2);
   delay(250);
   digitalWrite(RED1, LOW);
 }

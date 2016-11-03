@@ -14,8 +14,16 @@ void Available_Actions(int State1, int State2, bool Action_Type); //changes glob
 void S_Given_A(int State1,int State2,int Action); // changes global S1_Prime, S2_Prime 
 
 //intializations
-void Init_All(void);
-void Init_QandN(void);
+void Init_All(bool);
+void Init_QandN(bool);
 void Init_Valid_Actions(void);
+
+void Debug_Visited_States(bool);
+void Debug_Servo_State_Run(void);
+
+void print_Begin(void);
+void flash_Error(void);
+void print_Load(int num);
+
 
 #endif

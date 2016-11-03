@@ -10,9 +10,11 @@ extern int S2;                //State where updates are taking place
 
 extern float Q[5][5][8]; 				//Quality of taking an action state pair
 extern float N[5][5][8];			// Number of times you've taken an action state pair
+extern float N_Init;
 
 extern int Valid_Actions[8];
 extern int Valid_Actions_Prime[8];
+
 
 /********************************************************** 
 void Init_All(void);
@@ -20,9 +22,9 @@ void Init_All(void);
 
 
 */
-void Init_All (void){
+void Init_All(bool Loading){
   digitalWrite(GREEN1, HIGH);
-	Init_QandN();
+  Init_QandN(Loading);
 	Init_Valid_Actions();
   Shoulder.write(130);
   Elbow.write(130);
@@ -36,15 +38,17 @@ void Init_QandN(void);
 
 
 */
-void Init_QandN(void){
+void Init_QandN(bool loading){
 	int i;
 	int j;
 	int k;
 	for(i=0;i<5;i++){
 		for(j=0;j<5;j++){
 			for(k=0;k<8;k++){
-				Q[i][j][k] = 0;
-				N[i][j][k] = 0.01;
+      
+      if(!(loading)) Q[i][j][k] = 0 ;
+			N[i][j][k] = N_Init;
+      
 			}
 		}
 	}

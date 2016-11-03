@@ -33,7 +33,7 @@ void Policy(void){
  
   Available_Actions(S1,S2,0);
   
-  /*if(epsilon_greedy && p < epsilon){    //if epsilon greedy and random action is selected
+  if(epsilon_greedy && p < epsilon){    //if epsilon greedy and random action is selected
       temp = random(Actions_Num - 1);       //pick a random action
       Action_Next = Valid_Actions[temp];
   }
@@ -42,7 +42,7 @@ void Policy(void){
       
       Action_Next = Q_max_action(S1, S2, 0);          //act greedy
   }
-*/
+
   
   Action_Next = Q_max_action(S1, S2, 0);
 }
@@ -53,9 +53,13 @@ int Q_max_action(int State1, int State2, bool Action_Type){
  * eventually, there would be a way to randomly choose between actions with equal qualities
 */
 	int i;
+  int j=0;
+  int select;
 	int a;  //action being checked
 	int Q_max=0;
 	int Best_Action;
+  int Best_Actions[8]; //stores actions of equal best quality
+  int Best_Actions_Size=0; // stores dynamic size of Best Actions array
   
 	if(Action_Type == 0){
     Best_Action = Valid_Actions[0];
@@ -64,7 +68,6 @@ int Q_max_action(int State1, int State2, bool Action_Type){
   			if (Q[State1][State2][a] > Q_max){
   			  Q_max = Q[State1][State2][a];
   			   Best_Action = a;
-          
 			  }
 		}
 	}
@@ -78,6 +81,20 @@ int Q_max_action(int State1, int State2, bool Action_Type){
 			}
 		}
 	}
+ 
+ for(i=0; i < Actions_Num; i++){
+      a = Valid_Actions[i];
+      if(Q[State1][State2][a] == Q_max){
+        Best_Actions[j] = a;
+        j++;
+      }
+   }
+   Best_Actions_Size = j;
+  
+   if(Best_Actions_Size > 1){
+    select = random(0 , Best_Actions_Size);
+    Best_Action = Best_Actions[select];
+   }
     
   	return Best_Action;
 }

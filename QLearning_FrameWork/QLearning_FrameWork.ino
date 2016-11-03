@@ -16,11 +16,11 @@
 
 //Pre-Processing
 //***************************************************************************
-#include "Arduino.h"
-#include <Servo.h> 
-#include <Encoder.h>
-#include <Wire.h>
-#include <Adafruit_RGBLCDShield.h>
+#include "Arduino.h"                        //attaches all linked files
+#include <Servo.h>                          //servo library
+#include <Encoder.h>                        //for wheel encoders 
+#include <Wire.h>                           // I2C libraries (LCD uses that)
+#include <Adafruit_RGBLCDShield.h>          
 #include <utility/Adafruit_MCP23017.h>
 #include "functions.h"
 #include "macros.h"

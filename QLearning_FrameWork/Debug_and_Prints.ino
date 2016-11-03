@@ -91,7 +91,7 @@ void Debug_Visited_States(bool print_on){
 void print_Begin(void){
   lcd.clear();
   lcd.print("SELECT TO BEGIN");
-  lcd.setCursor(0, 0);
+  lcd.setCursor(0, 1);
   lcd.print("DOWN TO LOAD");
 }
 

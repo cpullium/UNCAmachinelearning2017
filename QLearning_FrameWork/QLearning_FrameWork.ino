@@ -121,82 +121,96 @@ void loop() {
       switch(init_state){
         case 0:
             print_Begin();
-            buttons = lcd.readButtons();
-            if(buttons){ 
-              if (buttons & BUTTON_SELECT) {
-                 lcd.print("BEGIN LEARNING");
-                 lcd.setBacklight(TEAL);
-                 delay(50);
-                 Init_All(0);
-                 mode = LEARN_BEHAVIOR;
-                 break;
-              }
-              else if (buttons & BUTTON_DOWN) {   
-                 init_state++;
-              }
-              else flash_Error(); 
-            }
-             
+            while(!(buttons)) buttons = lcd.readButtons();
+              if(buttons){ 
+                if (buttons & BUTTON_SELECT) {
+                   lcd.clear();
+                   lcd.setCursor(4,0);
+                   lcd.print("LEARNING");
+                   lcd.setBacklight(TEAL);
+                   delay(2000);
+                   Init_All(0);
+                   mode = LEARN_BEHAVIOR;
+                   
+                }
+                else if (buttons & BUTTON_DOWN) {   
+                   delay(250);
+                   init_state++;
+                }
+                else flash_Error(); 
+              }  
+              buttons = 0;
         break;
         case 1:
             print_Load(1);
-            buttons = lcd.readButtons();
+            while(!(buttons)) buttons = lcd.readButtons();
             if(buttons){ 
               if (buttons & BUTTON_SELECT) {
-                 lcd.print("BEGIN LEARNING");
-                 lcd.setBacklight(TEAL);
-                 delay(500);
+                   lcd.clear();
+                   lcd.setCursor(4,0);
+                   lcd.print("LEARNING");
+                   lcd.setBacklight(TEAL);
+                   delay(2000);
                  mode = LEARN_BEHAVIOR;
-                 break;
               }
-              else if (buttons & BUTTON_DOWN) {   
+              else if (buttons & BUTTON_DOWN) { 
+                 delay(250);  
                  init_state++;
               }
               else if (buttons & BUTTON_UP) {   
+                 delay(250);
                  init_state--;
               }
               else flash_Error(); 
-            }            
+            }           
+            buttons = 0; 
         break;
         
         case 2:
             print_Load(2);
-            buttons = lcd.readButtons();
+            while(!(buttons)) buttons = lcd.readButtons();
             if(buttons){ 
               if (buttons & BUTTON_SELECT) {
+                 lcd.clear();
+                 lcd.setCursor(4,0);
                  lcd.print("LEARNING");
                  lcd.setBacklight(TEAL);
-                 delay(500);
+                 delay(2000);
                  mode = LEARN_BEHAVIOR;
-                 break;
               }
               else if (buttons & BUTTON_DOWN) {   
+                 delay(250);
                  init_state++;
               }
               else if (buttons & BUTTON_UP) {   
+                 delay(250);
                  init_state--;
               }
               else flash_Error(); 
             }
+            buttons = 0;
         break;
         
         case 3:
             print_Load(3);
-            buttons = lcd.readButtons();
+            while(!(buttons)) buttons = lcd.readButtons();
             if(buttons){ 
               if (buttons & BUTTON_SELECT) {
+                 lcd.clear();
+                 lcd.setCursor(4,0);
                  lcd.print("LEARNING");
                  lcd.setBacklight(TEAL);
-                 delay(500);
+                 delay(2000);
                  mode = LEARN_BEHAVIOR;
-                 break;
               }
-              else if (buttons & BUTTON_UP) {   
+              else if (buttons & BUTTON_UP) {  
+                 delay(250); 
                  init_state--;
               }
               else flash_Error(); 
-            }            
-        break;    
+            }    
+            buttons = 0;        
+        break;     
         
         default:
             flash_Error();
@@ -206,7 +220,6 @@ void loop() {
 
     case LEARN_BEHAVIOR: // Engage in learning process until "select" button is pushed
       while(!(buttons & BUTTON_SELECT)){
-          lcd.clear();
     
           Debug_Visited_States(0);  // if (0), no serial print out. 
           
@@ -236,7 +249,9 @@ void loop() {
           
           buttons = lcd.readButtons(); // Check for buttons being pushed 
       }
-      mode = PAUSE_SAVE;  
+      mode = PAUSE_SAVE; 
+      delay(250);
+      buttons = 0; 
     break;  
     
     case PAUSE_SAVE:
@@ -247,13 +262,15 @@ void loop() {
       delay(1000);
       while(!(buttons)){buttons = lcd.readButtons();};
       if (buttons & BUTTON_SELECT) {
-         lcd.print("LEARNING");
-         lcd.setBacklight(TEAL);
-         delay(500);
+          lcd.clear();
+          lcd.setCursor(4,0);
+          lcd.print("LEARNING");
+          lcd.setBacklight(TEAL);
+          delay(2000);
          mode = LEARN_BEHAVIOR;
       }
       else flash_Error();
-      
+      buttons = 0;
     break;
     
     default:

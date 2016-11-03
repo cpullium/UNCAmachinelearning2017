@@ -25,5 +25,9 @@ void print_Begin(void);
 void flash_Error(void);
 void print_Load(int num);
 
-
+//function prototypes for Q-storage
+void Save_Map(int block, int S1_Size, int S2_Size, int Act_Size);
+void Store_Q(float Q_Val, int block, int Offset);
+void Load_Map(int block, int S1_Size, int S2_Size, int Act_Size);
+void Load_Q(int S1_index, int S2_index, int A_index, int block, int Offset);
 #endif

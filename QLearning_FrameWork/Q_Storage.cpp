@@ -1,4 +1,7 @@
 #include <EEPROM.h> 
+#include "functions.h"
+#include "Arduino.h"                        //attaches all linked files
+
 
 //global variables
 extern int block_ptr1 = 0;

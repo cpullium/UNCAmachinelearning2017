@@ -95,6 +95,13 @@ void print_Begin(void){
   lcd.print("DOWN TO LOAD");
 }
 
+void print_Pause(void){
+  lcd.clear();
+  lcd.print("SELECT TO RESUME");
+  lcd.setCursor(0, 1);
+  lcd.print("DOWN TO SAVE");
+}
+
 void flash_Error(void){
   for(int i=0;i<3;i++){
     lcd.setBacklight(RED);
@@ -111,5 +118,24 @@ void print_Load(int num){
   lcd.setCursor(7,0);
   lcd.print(num);
   delay(50);
+}
+
+void print_Save(int num){
+  lcd.clear();
+  lcd.setBacklight(YELLOW);
+  lcd.print("Save");
+  lcd.setCursor(7,0);
+  lcd.print(num);
+  delay(50);
+}
+
+void print_Q(void){
+  int i=2, j=2, k;
+  for(k=0; k<8; k++){
+    Serial.print("Q[2][2][");
+    Serial.print(k);
+    Serial.print("] = ");
+    Serial.println(Q[2][2][k]);
+  }
 }
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

@@ -29,4 +29,6 @@
 #define ACT        0
 #define ACT_PRIME  1 
 
+//Memory
+#define MEM_BLK_SIZE  801
 #endif

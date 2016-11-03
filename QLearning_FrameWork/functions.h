@@ -22,12 +22,17 @@ void Debug_Visited_States(bool);
 void Debug_Servo_State_Run(void);
 
 void print_Begin(void);
+void print_Pause(void);
 void flash_Error(void);
 void print_Load(int num);
+void print_Save(int num);
+void print_Q(void);
 
+//functions for menus
+void init_Menu(void);
+void save_Menu(void);
 //function prototypes for Q-storage
 void Save_Map(int block, int S1_Size, int S2_Size, int Act_Size);
-void Store_Q(float Q_Val, int block, int Offset);
 void Load_Map(int block, int S1_Size, int S2_Size, int Act_Size);
-void Load_Q(int S1_index, int S2_index, int A_index, int block, int Offset);
+
 #endif

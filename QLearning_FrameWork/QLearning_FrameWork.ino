@@ -29,10 +29,10 @@
 
 //Q Learning Parameters--------------------------------------------------------
 float alpha = 0.8;          //Learning Rate 
-float K=0;                 //Exploration Reward
+float K=25;                 //Exploration Reward
 float gamma = .3;         //Value of look ahead
 
-bool epsilon_greedy = 1;      //of 1 take random action sometimes
+bool epsilon_greedy = 0;      //of 1 take random action sometimes
 int epsilon = 0.6;           //percentage of random actions
 //-------------------------------------------------------------------------------
 
@@ -63,10 +63,14 @@ float R;                 //Reward recieved from wheel encoders
 //Switch Case
 int mode = 0;
 int init_state = 0;
-int pause_state = 0;
+int save_state = 0;
 
 //LCD
 uint8_t buttons = 0;   //Which button is pushed on the LCD panel
+
+//Memory 
+int block_ptr1 = 0;
+int block_ptr2 = 1602;
 
 //Debugging variables----------
 unsigned int States_Visited = 0;    //Tracking how much it's explored
@@ -86,16 +90,13 @@ Adafruit_RGBLCDShield lcd = Adafruit_RGBLCDShield(); //LCD Screen
 void setup(){ 
   
   Serial.begin(9600);
- 
   
- 
   Shoulder.attach(24);  // attaches the servo on pin 11 to the servo object
   Elbow.attach(22);      
   lcd.begin(16, 2);
   lcd.setBacklight(VIOLET);
   lcd.setCursor(0,2);
   lcd.print("Thinking cap on");
-
   
   //Initialize LEDs
   pinMode(RED1, OUTPUT);
@@ -105,6 +106,7 @@ void setup(){
   delay(3000);
   lcd.clear();
 
+  Init_All(0);
 
 } 
 
@@ -115,132 +117,39 @@ void loop() {
 
   unsigned int iterations =0;
   float Start_Pos;
-  
-  switch(mode){
-    case LOAD_INIT:
-      switch(init_state){
-        case 0:
-            print_Begin();
-            while(!(buttons)) buttons = lcd.readButtons();
-              if(buttons){ 
-                if (buttons & BUTTON_SELECT) {
-                   lcd.clear();
-                   lcd.setCursor(4,0);
-                   lcd.print("LEARNING");
-                   lcd.setBacklight(TEAL);
-                   delay(2000);
-                   Init_All(0);
-                   mode = LEARN_BEHAVIOR;
-                   
-                }
-                else if (buttons & BUTTON_DOWN) {   
-                   delay(250);
-                   init_state++;
-                }
-                else flash_Error(); 
-              }  
-              buttons = 0;
-        break;
-        case 1:
-            print_Load(1);
-            while(!(buttons)) buttons = lcd.readButtons();
-            if(buttons){ 
-              if (buttons & BUTTON_SELECT) {
-                   lcd.clear();
-                   lcd.setCursor(4,0);
-                   lcd.print("LEARNING");
-                   lcd.setBacklight(TEAL);
-                   delay(2000);
-                 mode = LEARN_BEHAVIOR;
-              }
-              else if (buttons & BUTTON_DOWN) { 
-                 delay(250);  
-                 init_state++;
-              }
-              else if (buttons & BUTTON_UP) {   
-                 delay(250);
-                 init_state--;
-              }
-              else flash_Error(); 
-            }           
-            buttons = 0; 
-        break;
-        
-        case 2:
-            print_Load(2);
-            while(!(buttons)) buttons = lcd.readButtons();
-            if(buttons){ 
-              if (buttons & BUTTON_SELECT) {
-                 lcd.clear();
-                 lcd.setCursor(4,0);
-                 lcd.print("LEARNING");
-                 lcd.setBacklight(TEAL);
-                 delay(2000);
-                 mode = LEARN_BEHAVIOR;
-              }
-              else if (buttons & BUTTON_DOWN) {   
-                 delay(250);
-                 init_state++;
-              }
-              else if (buttons & BUTTON_UP) {   
-                 delay(250);
-                 init_state--;
-              }
-              else flash_Error(); 
-            }
-            buttons = 0;
-        break;
-        
-        case 3:
-            print_Load(3);
-            while(!(buttons)) buttons = lcd.readButtons();
-            if(buttons){ 
-              if (buttons & BUTTON_SELECT) {
-                 lcd.clear();
-                 lcd.setCursor(4,0);
-                 lcd.print("LEARNING");
-                 lcd.setBacklight(TEAL);
-                 delay(2000);
-                 mode = LEARN_BEHAVIOR;
-              }
-              else if (buttons & BUTTON_UP) {  
-                 delay(250); 
-                 init_state--;
-              }
-              else flash_Error(); 
-            }    
-            buttons = 0;        
-        break;     
-        
-        default:
-            flash_Error();
-        break;
-      }  
-    break; //end learning switch
 
-    case LEARN_BEHAVIOR: // Engage in learning process until "select" button is pushed
+  //Wait to begin....given option to load----------------------------------------------------------------
+  switch(mode){ 
+    case LOAD_INIT:
+      init_Menu();
+    break; 
+ //------------------------------------------------------------------------------------------------------
+
+
+ // Engage in learning process until "select" button is pushed-------------------------------------------
+    case LEARN_BEHAVIOR: 
+      lcd.clear();
+      lcd.setCursor(4,0);
+      lcd.print("LEARNING");
+      lcd.setBacklight(TEAL);
       while(!(buttons & BUTTON_SELECT)){
     
           Debug_Visited_States(0);  // if (0), no serial print out. 
           
           Policy(); //Policy
           
-          //Measure where you start from
-          Start_Pos = myEnc.read();
+          Start_Pos = myEnc.read(); //Measure where you start from
           
-          //Move to new state assign next_S1, next_S2. Increment global N[S1][S2][A];
-          take_Action();
+          take_Action(); //Move to new state assign next_S1, next_S2. Increment global N[S1][S2][A];
           
-          //Measure where you end
-          R = myEnc.read()-Start_Pos;
+          R = myEnc.read()-Start_Pos; //Measure where you end
           //R *= -1;
-          Serial.println(R);
-         
-          //Update Q synchronously. 
-          Q_Update();//All inputs are global variables
+          //Serial.println(R);
+          
+           
+          Q_Update();  //Update Q synchronously.
     
-          //Setup for next itteration
-          N[S1][S2][Action_Next]++;
+          N[S1][S2][Action_Next]++; //Setup for next itteration
           alpha -= 0.0001;
           if(alpha < .01) alpha = .01;
           S1 = next_S1;
@@ -250,33 +159,24 @@ void loop() {
           buttons = lcd.readButtons(); // Check for buttons being pushed 
       }
       mode = PAUSE_SAVE; 
-      delay(250);
-      buttons = 0; 
-    break;  
-    
-    case PAUSE_SAVE:
       lcd.clear();
-      lcd.setBacklight(BLUE);
-      lcd.setCursor(3,0);
+      lcd.setCursor(4,0);
       lcd.print("PAUSED");
-      delay(1000);
-      while(!(buttons)){buttons = lcd.readButtons();};
-      if (buttons & BUTTON_SELECT) {
-          lcd.clear();
-          lcd.setCursor(4,0);
-          lcd.print("LEARNING");
-          lcd.setBacklight(TEAL);
-          delay(2000);
-         mode = LEARN_BEHAVIOR;
-      }
-      else flash_Error();
-      buttons = 0;
+      lcd.setBacklight(BLUE);
+      delay(2000);
+      buttons = 0; 
     break;
+    //--------------------------------------------------------------------------------------------------  
+
+    //Qlearning is paused...given the option to save the Qmap-------------------------------------------
+    case PAUSE_SAVE: 
+      save_Menu();
+    break;
+    //-----------------------------------------------------------------------------------------------
     
     default:
-    break;
-  
-  
+      flash_Error();
+    break;  
   }//end switch
 }//end loop
 

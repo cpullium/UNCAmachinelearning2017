@@ -37,8 +37,10 @@ int epsilon = 0.6;           //percentage of random actions
 //-------------------------------------------------------------------------------
 
 //State Space Variables--------------------------------------------------------
-float Q[5][5][8];          //Quaility of taking action given a state
-float N[5][5][8];         //Number of times visiting a state
+//float Q[5][5][8];          //Quaility of taking action given a state
+//float N[5][5][8];         //Number of times visiting a state
+
+float R_map[5][5][8];
 float N_Init = 0.01;     //Can't initialize to zero, it's used in division 
 
 int S1 = 2;             //State of "Elbow" Servo
@@ -81,7 +83,7 @@ bool flag = 0;
 //Objects----------------------------------------------------------
 Servo Shoulder;  // create servo object to control a servo 
 Servo Elbow;  // twelve servo objects can be created on most boards
-Encoder myEnc(3, 4);//create encoder object 
+Encoder myEnc(2, 3);//create encoder object 
 Adafruit_RGBLCDShield lcd = Adafruit_RGBLCDShield(); //LCD Screen
 //-------------------------------------------------------------------
 
@@ -91,30 +93,30 @@ void setup(){
   
   Serial.begin(9600);
   
-  Shoulder.attach(24);  // attaches the servo on pin 11 to the servo object
-  Elbow.attach(22);      
+  Shoulder.attach(9);  // attaches the servo on pin 11 to the servo object
+  Elbow.attach(10);     
+  pinMode(11,OUTPUT); 
   lcd.begin(16, 2);
   lcd.setBacklight(VIOLET);
   lcd.setCursor(0,2);
   lcd.print("Thinking cap on");
   
   //Initialize LEDs
-  pinMode(RED1, OUTPUT);
-  pinMode(GREEN1, OUTPUT);
-  pinMode(RED2, OUTPUT);
-  pinMode(GREEN2, OUTPUT);  
   delay(3000);
   lcd.clear();
 
-  Init_All(0);
-
+  //Init_All(0);
+  //init_Typed_QandN();
+  Shoulder.write(40);
+  Elbow.write(40);
+  digitalWrite(11,HIGH);
+  
 } 
 
 
 //MAIN LOOP
 //*******************************************************************************
 void loop() {
-
   unsigned int iterations =0;
   float Start_Pos;
 
@@ -133,28 +135,34 @@ void loop() {
       lcd.print("LEARNING");
       lcd.setBacklight(TEAL);
       while(!(buttons & BUTTON_SELECT)){
-    
-          Debug_Visited_States(0);  // if (0), no serial print out. 
-          
-          Policy(); //Policy
-          
-          Start_Pos = myEnc.read(); //Measure where you start from
-          
-          take_Action(); //Move to new state assign next_S1, next_S2. Increment global N[S1][S2][A];
-          
-          R = myEnc.read()-Start_Pos; //Measure where you end
-          //R *= -1;
-          //Serial.println(R);
-          
-           
-          Q_Update();  //Update Q synchronously.
-    
-          N[S1][S2][Action_Next]++; //Setup for next itteration
-          alpha -= 0.0001;
-          if(alpha < .01) alpha = .01;
-          S1 = next_S1;
-          S2 = next_S2;
-          iterations++;//Count iterations
+//        Debug_Servo_State_Run();
+//          Create_Reward_Map();
+//            Step_Through();
+            Debug_Visited_States(0);  // if (0), no serial print out. 
+  
+              
+            Policy(); //Policy
+  
+            
+            Start_Pos = myEnc.read(); //Measure where you start from
+            
+            take_Action(); //Move to new state assign next_S1, next_S2. Increment global N[S1][S2][A];
+            
+            R = myEnc.read()-Start_Pos; //Measure where you end
+            R *= 2;
+            if(R==0) R=-3;
+            
+            //Serial.println(R);
+  
+             
+            Q_Update();  //Update Q synchronously.
+      
+            N[S1][S2][Action_Next]++; //Setup for next itteration
+            alpha -= 0.0001;
+            if(alpha < .01) alpha = .01;
+            S1 = next_S1;
+            S2 = next_S2;
+            iterations++;//Count iterations
           
           buttons = lcd.readButtons(); // Check for buttons being pushed 
       }
@@ -179,6 +187,7 @@ void loop() {
     break;  
   }//end switch
 }//end loop
+
 
 
 

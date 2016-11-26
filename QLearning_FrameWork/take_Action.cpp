@@ -15,14 +15,12 @@ extern Servo Elbow;  // twelve servo objects can be created on most boards
 
 
 void take_Action(void){
-  digitalWrite(RED1, HIGH);
 	S_Given_A(S1,S2,Action_Next);
 	
 	next_S1 = S1_Prime;
 	next_S2 = S2_Prime;
 	
-	Shoulder.write(70+20*next_S1);
-	Elbow.write(40+20*next_S2);
+	Shoulder.write(0+20*next_S1);
+	Elbow.write(0+20*next_S2);
   delay(250);
-  digitalWrite(RED1, LOW);
 }

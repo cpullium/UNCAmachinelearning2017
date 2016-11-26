@@ -7,6 +7,7 @@
 #define LOAD_INIT 0
 #define LEARN_BEHAVIOR 1
 #define PAUSE_SAVE 2
+#define ENCODER_DO_NOT_USE_INTERRUPTS
 
 
 //Indicator LEDs-------------------

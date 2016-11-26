@@ -23,7 +23,6 @@ void Init_All(void);
 
 */
 void Init_All(bool Loading){
-  digitalWrite(GREEN1, HIGH);
   Init_QandN(Loading);
 	Init_Valid_Actions();
   Shoulder.write(130);
@@ -68,3 +67,6 @@ void Init_Valid_Actions(void){
     Valid_Actions_Prime[i]=0;
 	}
 }
+
+
+

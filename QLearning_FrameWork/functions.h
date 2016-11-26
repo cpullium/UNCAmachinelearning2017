@@ -12,6 +12,7 @@ void Q_Update(void);
 int Q_max_action(int State1, int State2, bool ); //used by policy and qupdate
 void Available_Actions(int State1, int State2, bool Action_Type); //changes global array and returns counter 
 void S_Given_A(int State1,int State2,int Action); // changes global S1_Prime, S2_Prime 
+void Servo_Test(void);
 
 //intializations
 void Init_All(bool);
@@ -34,5 +35,11 @@ void save_Menu(void);
 //function prototypes for Q-storage
 void Save_Map(int block, int S1_Size, int S2_Size, int Act_Size);
 void Load_Map(int block, int S1_Size, int S2_Size, int Act_Size);
+
+
+void Create_Reward_Map(void);
+void printRewardMap(void);
+void Step_Through(void);
+void init_Typed_QandN(void);
 
 #endif

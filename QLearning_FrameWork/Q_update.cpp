@@ -42,18 +42,18 @@ void Q_Update(){
   float oldPerspective;
   float newPerspective;
 // debug prints---------------------------------------------------------------------------------------------------
- Serial.print("Updating States: "); Serial.print(S1); Serial.print(", "); Serial.print(S2); Serial.println(" :");
- Serial.print("Q(s,s:   "); Serial.print("a"); Serial.print(") -> "); 
- Serial.print("beta"); Serial.print("*("); Serial.print("Q(a)"); Serial.print(") + ");
- Serial.print("alpha"); Serial.print("*(("); Serial.print("R"); Serial.print(") + ("); Serial.print("qmax"); Serial.print(") + ((");
- Serial.print("K"); Serial.print(" / "); Serial.print("N(a')"); Serial.print(")) = "); Serial.println("Q(s,s,a)updated;");
+// Serial.print("Updating States: "); Serial.print(S1); Serial.print(", "); Serial.print(S2); Serial.println(" :");
+// Serial.print("Q(s,s:   "); Serial.print("a"); Serial.print(") -> "); 
+// Serial.print("beta"); Serial.print("*("); Serial.print("Q(a)"); Serial.print(") + ");
+// Serial.print("alpha"); Serial.print("*(("); Serial.print("R"); Serial.print(") + ("); Serial.print("qmax"); Serial.print(") + ((");
+// Serial.print("K"); Serial.print(" / "); Serial.print("N(a')"); Serial.print(")) = "); Serial.println("Q(s,s,a)updated;");
 // debug prints^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ 
   for(int i=0; i<Actions_Num; i++){		//Update all possible actions' quaility 
   	Action_Being_Updated = Valid_Actions[i];  //pull from  global valid action vector
    
 // debug prints---------------------------------------------------------------------------------------------------
-    Serial.print("Q(action "); Serial.print(Action_Being_Updated); Serial.print(") -> "); 
-    Serial.print(beta); Serial.print("*("); Serial.print(Q[S1][S2][Action_Being_Updated]); Serial.print(") + ");
+//    Serial.print("Q(action "); Serial.print(Action_Being_Updated); Serial.print(") -> "); 
+//    Serial.print(beta); Serial.print("*("); Serial.print(Q[S1][S2][Action_Being_Updated]); Serial.print(") + ");
 // debug prints^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     
     
@@ -65,8 +65,8 @@ void Q_Update(){
 
   	Reward = (Action_Being_Updated == Action_Next) ? R : 0; //if looking at the actual action taken, factor in Reward
 // debug prints---------------------------------------------------------------------------------------------------
-    Serial.print(alpha); Serial.print("*(("); Serial.print(R); Serial.print(") + ("); Serial.print(qmax); Serial.print(") + ((");
-    Serial.print(K); Serial.print(" / "); Serial.print(N[S1_Prime][S2_Prime][A_Prime]); Serial.print(")) = ");
+//    Serial.print(alpha); Serial.print("*(("); Serial.print(R); Serial.print(") + ("); Serial.print(qmax); Serial.print(") + ((");
+//    Serial.print(K); Serial.print(" / "); Serial.print(N[S1_Prime][S2_Prime][A_Prime]); Serial.print(")) = ");
 // debug prints^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
   	oldPerspective = Q[S1][S2][Action_Being_Updated];  //store current map value
@@ -75,10 +75,10 @@ void Q_Update(){
   	Q[S1][S2][Action_Being_Updated] = beta*oldPerspective + alpha*newPerspective; //Combined current map with learned info
   																				//beta and alpha weight old vs new
 // debug prints---------------------------------------------------------------------------------------------------
-    Serial.print(Q[S1][S2][Action_Being_Updated]); Serial.println(";");
+//    Serial.print(Q[S1][S2][Action_Being_Updated]); Serial.println(";");
 // debug prints^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
                                   
   }
-  Serial.println();
+//  Serial.println();
 }
 
